@@ -1,44 +1,58 @@
 package cn.xyc.sort;
 
 import cn.xyc.sortBase.SortBase;
+import cn.xyc.sortUtil.GenerateDataFileUtil;
+import cn.xyc.sortUtil.GetDataUtil;
 
 /**
  * 
- **************************************************************************************************
- * 选择排序：每次选出剩余元素中最小的元素<br/>
- * 1、找到最小的那个元素 <br/>
- * 2、将最小的元素与第一个元素进行交换位置<br/>
- * 3、以此类推知道最后一个元素
- **************************************************************************************************
- * @author andy<br/>
  * 
- *         代码时间:2016年9月17日 下午11:28:46
+ * 描述：
+ * 
+ * <pre>
+ *  
+ * HISTORY 
+ * **************************************************************************** 
+ *  ID   DATE           PERSON          REASON 
+ *  1    2017年6月4日        	Jake         	Create 
+ * ****************************************************************************
+ * </pre>
+ * 
+ * @author Jake
+ * @since 1.0
  */
-@SuppressWarnings("rawtypes")
 public class SelectionSort extends SortBase {
 
 	/**
-	 * 将a进行升序排列
 	 * 
-	 * @param a
+	 * @param arr
 	 */
-	public static void sort(Comparable[] a) {
-		for (int i = 0; i < a.length; i++) {
-			int min = i;// 最小元素的位置
-			for (int j = i + 1; j < a.length - 1; j++) {
-				if (less(a[j], a[min])) {
+	public static <T extends Comparable<T>> void sort(T[] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			int min = i;// 记下当前元素，用于交换
+			// 找出i之后的元素中最小的元素
+			for (int j = i + 1; j < arr.length; j++) {
+				compareCount++;// 比较次数
+				if (less(arr[j], arr[min])) {
 					min = j;
 				}
 			}
 			if (min != i) {
-				exch(a, i, min);
+				exchCount++;// 交换次数
+				exch(arr, i, min);
 			}
 		}
-
 	}
 
 	public static void main(String[] args) {
-		
+		String path = "C:\\Users\\admin\\Desktop";
+		GenerateDataFileUtil.generate(path + "/a.txt", 100000);
+		Integer[] datas = GetDataUtil.getData(path + "/a.txt");
+		long s = System.currentTimeMillis();
+		SelectionSort.sort(datas);
+		long e = System.currentTimeMillis();
+		SelectionSort.show(datas);
+		System.err.printf("\t排序时间:%dms",(e-s));
 	}
 
 }
