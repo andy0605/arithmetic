@@ -9,8 +9,9 @@ package cn.xyc.sortBase;
  * 
  *         代码时间:2016年9月17日 下午10:58:44
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
 public class SortBase {
+	public static int compareCount = 0;
+	public static int exchCount = 0;
 
 	/**
 	 * 比较大小,如果a大于等于b返回false
@@ -20,7 +21,7 @@ public class SortBase {
 	 * @return
 	 */
 
-	public static boolean less(Comparable a, Comparable b) {
+	public static <T extends Comparable<T>> boolean less(T a, T b) {
 		return a.compareTo(b) < 0;
 	}
 
@@ -29,28 +30,32 @@ public class SortBase {
 	 * 
 	 * @param a
 	 */
-	public static void show(Comparable[] a) {
+	public static <T extends Comparable<T>> void show(T[] a) {
 		int i = 1;
-		for (Comparable c : a) {
+
+		for (T c : a) {
+
 			if (i % 10 == 0) {
-				System.out.println();
+				System.out.println(c + "\t");
 			} else {
 				System.out.print(c + "\t");
 			}
+			i++;
 		}
+		System.err.printf("比较次数：%d\t交换次数:%d", compareCount, exchCount);
 	}
 
 	/**
 	 * 交换数组a中i和j的位置
 	 * 
-	 * @param a
+	 * @param arr
 	 * @param i
 	 * @param j
 	 */
-	public static void exch(Comparable[] a, int i, int j) {
-		Comparable t = a[i];
-		a[i] = a[j];
-		a[j] = t;
+	public static <T extends Comparable<T>> void exch(T[] arr, int i, int j) {
+		T t = arr[i];
+		arr[i] = arr[j];
+		arr[j] = t;
 	}
 
 	/**
@@ -59,7 +64,7 @@ public class SortBase {
 	 * @param a
 	 * @return
 	 */
-	public static boolean isSort(Comparable[] a) {
+	public static <T extends Comparable<T>> boolean isSorted(T[] a) {
 		for (int i = 0; i < a.length; i++) {
 			if (!less(a[i], a[i + 1])) {
 				return false;
